@@ -90,8 +90,7 @@ app.use(cors({origin: ['https://lab.dooper.in']}));
 // import { dirname } from 'path';
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = dirname(__filename);
-const buildPath = path.join(__dirname, '../frontend/dist');
-app.use(express.static(buildPath));
+
 
 // Connect to database
 connectDB().then(({ conn1, conn2,conn3 }) => {
@@ -208,10 +207,8 @@ app.post('/api/test', (req, res) => {
 
  
 
-  // Serve frontend
-  app.get('*', (req, res) => { 
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html')); 
-  });
+
+ 
 
   // Start server
   const PORT = process.env.PORT || 5000;
