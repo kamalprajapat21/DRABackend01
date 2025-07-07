@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+      "vercel-build": "npm install --legacy-peer-deps && vercel build",
+        "install": "npm install --legacy-peer-deps"
+
+
   },
   "keywords": [],
   "type": "module",
