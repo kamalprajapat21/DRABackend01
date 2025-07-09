@@ -58,5 +58,6 @@ router.post('/signup2', upload.fields([
 //serverRoutes
 
 router.post('/firebase-token', firebaseTokenAuth);
+router.get('/test', (req, res) => res.json({ ok: true }));
 
 export default router;
