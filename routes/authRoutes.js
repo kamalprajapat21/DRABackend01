@@ -9,6 +9,7 @@ import path from 'path';
 import mongoose from 'mongoose';
 import { GridFsStorage } from 'multer-gridfs-storage';
 import Grid from 'gridfs-stream';
+import { firebaseTokenAuth } from '../controllers/firebaseAuthController.js';
 
 
 const conn = mongoose.connection;
@@ -55,5 +56,7 @@ router.post('/signup2', upload.fields([
   ]), Signup2);
   router.post('/signup3', upload.single('uploadbankstatement'), Signup3);
 //serverRoutes
+
+router.post('/firebase-token', firebaseTokenAuth);
 
 export default router;
