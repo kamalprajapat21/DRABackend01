@@ -11,11 +11,11 @@ services:
       - key: PORT
         value: 10000
       # Add your environment variables here
-      - key: MONGODB_URI_1
+      - key: MONGO_URI_1
         sync: false
-      - key: MONGODB_URI_2
+      - key: MONGO_URI_2
         sync: false
-      - key: MONGODB_URI_3
+      - key: MONGO_URI_3
         sync: false
       - key: FIREBASE_TYPE
         sync: false
