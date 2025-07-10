@@ -19,7 +19,7 @@ conn.once('open', () => {
 
 // Set up storage engine
 const storage = new GridFsStorage({
-  url: 'mongodb+srv://kamalprajapat7117:Dooper001@cluster0.vct0boe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+  url: process.env.MONGO_URI_1,
   file: (req, file) => {
     return {
       filename: Date.now() + '-' + file.originalname,

@@ -87,19 +87,19 @@ dotenv.config();
 
 const connectDB = async () => {
   try {
-    const conn1 = await mongoose.createConnection(process.env.MONGO_URI, {
+    const conn1 = await mongoose.createConnection(process.env.MONGO_URI_1, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       bufferTimeoutMS: 20000
     });
 
-    const conn2 = await mongoose.createConnection(process.env.MONGO_URI2, {
+    const conn2 = await mongoose.createConnection(process.env.MONGO_URI_2, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       bufferTimeoutMS: 20000
     });
 
-    const conn3 = await mongoose.createConnection(process.env.MONGO_URI3, {
+    const conn3 = await mongoose.createConnection(process.env.MONGO_URI_3, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       bufferTimeoutMS: 20000

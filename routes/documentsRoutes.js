@@ -280,7 +280,7 @@ import Grid from 'gridfs-stream';
 const router = express.Router();
 
 // MongoDB connection string
-const mongoURI = 'mongodb+srv://kamalprajapat7117:Dooper001@cluster0.vct0boe.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = process.env.MONGO_URI_1;
 
 // Create a new connection using the connection string
 const conn = mongoose.createConnection(mongoURI, {

@@ -155,7 +155,7 @@ conn.once('open', () => {
 
 // Create storage engine for multer-gridfs-storage
 const storage = new GridFsStorage({
-  url: process.env.MONGO_URI2, // Ensure this is the correct DB URI
+  url: process.env.MONGO_URI_2, // Ensure this is the correct DB URI
   file: (req, file) => {
     return {
       filename: `${Date.now()}-${file.originalname}`, // Customize filename as needed
