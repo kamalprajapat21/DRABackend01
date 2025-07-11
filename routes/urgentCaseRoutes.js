@@ -24,7 +24,7 @@ const { conn1, conn2 } = await dbModule.default();
 
 // Routes
 router.get('/available/:draId', getAvailableUrgentCases);
-router.get('/incoming', getIncomingUrgentBookings);
+router.get('/incoming-realtime', getIncomingUrgentBookings);
 router.post('/reject', rejectUrgentCase);
 router.post('/accept', acceptUrgentCase);
 
