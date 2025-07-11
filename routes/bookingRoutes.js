@@ -7,6 +7,7 @@ import {
   
 } from '../controllers/bookingController.js';
 import { acceptBooking,rejectBooking } from '../controllers/bookingController.js';
+import { getAllBookingsWithServiceType } from '../controllers/BOOKING/getAllBookingsController.js';
 
 const router = express.Router();
 
@@ -19,5 +20,8 @@ const router = express.Router();
 // Route for Accept Reject
 router.post('/:id/accept', acceptBooking);
 router.post('/:id/reject', rejectBooking);
+
+// Add this route for unified bookings
+router.get('/all-with-type', getAllBookingsWithServiceType);
 
 export default router;
