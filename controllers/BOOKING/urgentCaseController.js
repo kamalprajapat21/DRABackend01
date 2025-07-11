@@ -103,3 +103,87 @@ export const acceptUrgentCase = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+// export const getIncomingUrgentBookings = async (req, res) => {
+//   try {
+//     const PwaUrgentCaseModel = req.conn2.model('UrgentCase');
+
+//     // Fetch all urgent cases with incoming bookings
+//     const urgentCases = await PwaUrgentCaseModel.find({
+//       'bookings.status': 'incoming'
+//     }).lean();
+
+//     // Flatten all incoming bookings
+//     const incomingBookings = [];
+    
+//     for (const urgentCase of urgentCases) {
+//       for (const booking of urgentCase.bookings) {
+//         if (booking.status === 'incoming') {
+//           incomingBookings.push({
+//             bookingId: booking.bookingId,
+//             patientName: booking.patientName,
+//             patientAge: booking.patientAge,
+//             symptoms: booking.symptoms,
+//             patientsNote: booking.patientsNote,
+//             urgentCharges: booking.urgentCharges,
+//             status: booking.status,
+//             createdAt: booking.createdAt,
+//             draRejectedBy: booking.draRejectedBy || [],
+//             userId: urgentCase.userId
+//           });
+//         }
+//       }
+//     }
+
+//     res.json({
+//       success: true,
+//       count: incomingBookings.length,
+//       bookings: incomingBookings
+//     });
+//   } catch (error) {
+//     console.error('Error fetching incoming urgent bookings:', error);
+//     res.status(500).json({ 
+//       success: false,
+//       error: 'Internal Server Error' 
+//     });
+//   }
+// };
+
+// controllers/getIncomingUrgentBookings.js
+// import createUrgentCaseModel from "../models/UrgentCaseModel.js";
+
+export const getIncomingUrgentBookings = async (req, res) => {
+  try {
+    // Register model on conn2 if not already
+    createUrgentCaseModel(req.conn2);
+    const PwaUrgentCaseModel = req.conn2.model('UrgentCase');
+
+    // Find all urgent cases where at least one booking has status 'incoming'
+    const urgentCases = await PwaUrgentCaseModel.find({ 
+      "bookings.status": "incoming"
+    }).select("userId bookings"); 
+
+    // Flatten and filter incoming bookings
+    const incomingBookings = urgentCases.flatMap(urgentCase =>
+      urgentCase.bookings.filter(booking => booking.status === "incoming")
+        .map(booking => ({
+          ...booking.toObject(),
+          userId: urgentCase.userId   // attach userId
+        }))
+    );
+
+    return res.status(200).json({
+      success: true,
+      count: incomingBookings.length,
+      data: incomingBookings,
+    });
+
+  } catch (error) {
+    console.error("Error fetching incoming urgent bookings:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching incoming urgent bookings",
+    });
+  }
+};
+

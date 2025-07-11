@@ -49,7 +49,7 @@ export const endService = async (req, res) => {
     }
 
     const booking = userBookings.bookings.id(id);
-    if (booking.status !== 'Pending') {
+    if (booking.status !== 'pending') {
       return res.status(400).json({ message: 'Booking is not in Pending status' });
     }
 
