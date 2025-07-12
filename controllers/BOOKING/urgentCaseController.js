@@ -260,3 +260,42 @@ export const getPendingUrgentBookings = async (req, res) => {
     });
   }
 };
+
+
+
+// controllers/urgentCaseController.js
+
+export const getPendingAndCompletedUrgentBookings = async (req, res) => {
+  try {
+    // Register the model on conn2 if not already registered
+    createUrgentCaseModel(req.conn2);
+    const PwaUrgentCaseModel = req.conn2.model('UrgentCase');
+
+    // Find all urgent cases having at least one booking with status pending or completed
+    const urgentCases = await PwaUrgentCaseModel.find({
+      'bookings.status': { $in: ['pending', 'completed'] }
+    }).select('userId bookings');
+
+    // Flatten bookings, filter only pending & completed, attach userId
+    const bookings = urgentCases.flatMap(urgentCase =>
+      urgentCase.bookings
+        .filter(booking => booking.status === 'pending' || booking.status === 'completed')
+        .map(booking => ({
+          ...booking.toObject(),
+          userId: urgentCase.userId
+        }))
+    );
+
+    return res.status(200).json({
+      success: true,
+      count: bookings.length,
+      bookings
+    });
+  } catch (error) {
+    console.error('Error fetching pending & completed urgent bookings:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error'
+    });
+  }
+};
