@@ -187,3 +187,76 @@ export const getIncomingUrgentBookings = async (req, res) => {
   }
 };
 
+// controllers/urgentCaseController.js
+
+export const getCompletedUrgentBookings = async (req, res) => {
+  try {
+    // Register model on conn2 if not already
+    createUrgentCaseModel(req.conn2);
+    const PwaUrgentCaseModel = req.conn2.model('UrgentCase');
+
+    // Find all urgent cases where at least one booking is completed
+    const urgentCases = await PwaUrgentCaseModel.find({
+      'bookings.status': 'completed'
+    }).select('userId bookings'); // only select what's needed
+
+    // Flatten & filter only completed bookings, attach userId
+    const completedBookings = urgentCases.flatMap(urgentCase =>
+      urgentCase.bookings
+        .filter(booking => booking.status === 'completed')
+        .map(booking => ({
+          ...booking.toObject(),
+          userId: urgentCase.userId
+        }))
+    );
+
+    res.json({
+      success: true,
+      count: completedBookings.length,
+      bookings: completedBookings
+    });
+  } catch (error) {
+    console.error('Error fetching completed urgent bookings:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error'
+    });
+  }
+};
+
+
+
+export const getPendingUrgentBookings = async (req, res) => {
+  try {
+    // Ensure the model is registered on conn2
+    createUrgentCaseModel(req.conn2);
+    const PwaUrgentCaseModel = req.conn2.model('UrgentCase');
+
+    // Find all urgent cases having at least one booking with status 'pending'
+    const urgentCases = await PwaUrgentCaseModel.find({
+      'bookings.status': 'pending'
+    }).select('userId bookings');
+
+    // Flatten & filter only pending bookings, attach userId
+    const pendingBookings = urgentCases.flatMap(urgentCase =>
+      urgentCase.bookings
+        .filter(booking => booking.status === 'pending')
+        .map(booking => ({
+          ...booking.toObject(),
+          userId: urgentCase.userId
+        }))
+    );
+
+    return res.status(200).json({
+      success: true,
+      count: pendingBookings.length,
+      bookings: pendingBookings
+    });
+  } catch (error) {
+    console.error('Error fetching pending urgent bookings:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal Server Error'
+    });
+  }
+};
