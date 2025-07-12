@@ -4,6 +4,8 @@ import {
   rejectUrgentCase,
   acceptUrgentCase,
   getIncomingUrgentBookings,
+  getCompletedUrgentBookings,
+  getPendingUrgentBookings
 } from '../controllers/BOOKING/urgentCaseController.js';
 
 const router = express.Router();
@@ -27,6 +29,8 @@ router.get('/available/:draId', getAvailableUrgentCases);
 router.get('/incoming-realtime', getIncomingUrgentBookings);
 router.post('/reject', rejectUrgentCase);
 router.post('/accept', acceptUrgentCase);
+router.get('/completed', getCompletedUrgentBookings);
+router.get('/pending', getPendingUrgentBookings);
 
 // ✅ Export router
 export default router;
