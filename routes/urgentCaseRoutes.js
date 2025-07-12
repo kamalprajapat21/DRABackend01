@@ -5,7 +5,8 @@ import {
   acceptUrgentCase,
   getIncomingUrgentBookings,
   getCompletedUrgentBookings,
-  getPendingUrgentBookings
+  getPendingUrgentBookings,
+  getPendingAndCompletedUrgentBookings
 } from '../controllers/BOOKING/urgentCaseController.js';
 
 const router = express.Router();
@@ -31,6 +32,7 @@ router.post('/reject', rejectUrgentCase);
 router.post('/accept', acceptUrgentCase);
 router.get('/completed', getCompletedUrgentBookings);
 router.get('/pending', getPendingUrgentBookings);
+router.get('/pending-completed', getPendingAndCompletedUrgentBookings);//All
 
 // ✅ Export router
 export default router;
