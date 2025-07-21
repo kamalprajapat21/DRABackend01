@@ -42,7 +42,7 @@ router.post('/signup/checkuserexistance', checkuserexistance);
 
 router.post('/login/checkuserexistance2', checkuserexistance2);
 // router.post('/login/check-otp', checkOtp2);
-router.post('/api/auth/signup/create-with-token', createUserWithFirebaseToken);
+router.post('/firebase-token', firebaseTokenAuth);
 
 // router.post('/login/check-otp', checkOtp2);
 
