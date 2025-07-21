@@ -122,74 +122,20 @@
 import createUser from '../models/User.js';
 import createUser1 from '../models/User1.js';
 
-// export const Signup1 = async (req, res) => {
-//   try {
-//     const User = createUser(req.conn1);
-//     const User1 = createUser1(req.conn1);
-//     const { fullName, labName, labAddress1, labAddress2, city, state, mobileNumber } = req.body;
-//     const labPhoto = req.file ? req.file.filename : null;
-//     const mobile = String(mobileNumber).trim();
-
-//     let user = await User.findOne({ mobile });
-//     console.log(user);
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     let user1 = await User1.findOne({ mobile });
-//     if (!user1) {
-//       user1 = new User1({ mobile });
-//     }
-
-//     user1.fullName = fullName;
-//     user1.labName = labName;
-//     user1.labAddress1 = labAddress1;
-//     user1.labAddress2 = labAddress2;
-//     user1.city = city;
-//     user1.state = state;
-//     user1.labPhoto = labPhoto;
-//     user1.signupStep = 1;
-
-//     await user1.save();
-
-//     // Save reference in User
-//     if (user.User1 && !user.User1.includes(user1._id)) {
-//       user.User1.push(user1._id);
-//       await user.save();
-//     }
-
-//     res.status(200).json({ message: 'Step 1 completed successfully', data: user1 });
-//   } catch (error) {
-//     console.error('Error in step 1:', error);
-//     res.status(500).json({ message: 'Error in step 1', error: error.message });
-//   }
-// };
-
 export const Signup1 = async (req, res) => {
   try {
     const User = createUser(req.conn1);
     const User1 = createUser1(req.conn1);
-
-    const {
-      fullName,
-      labName,
-      labAddress1,
-      labAddress2,
-      city,
-      state,
-      mobileNumber,
-    } = req.body;
-
+    const { fullName, labName, labAddress1, labAddress2, city, state, mobileNumber } = req.body;
     const labPhoto = req.file ? req.file.filename : null;
     const mobile = String(mobileNumber).trim();
 
-    // ✅ Create user in User collection during signup step 1
     let user = await User.findOne({ mobile });
+    console.log(user);
     if (!user) {
-      user = await User.create({ mobile });
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    // Continue with existing User1 logic...
     let user1 = await User1.findOne({ mobile });
     if (!user1) {
       user1 = new User1({ mobile });
@@ -212,19 +158,12 @@ export const Signup1 = async (req, res) => {
       await user.save();
     }
 
-    res.status(200).json({
-      message: 'Step 1 completed successfully',
-      data: user1,
-    });
+    res.status(200).json({ message: 'Step 1 completed successfully', data: user1 });
   } catch (error) {
     console.error('Error in step 1:', error);
-    res.status(500).json({
-      message: 'Error in step 1',
-      error: error.message,
-    });
+    res.status(500).json({ message: 'Error in step 1', error: error.message });
   }
 };
-
 
 export const Signup2 = async (req, res) => {
   try {
