@@ -3,7 +3,7 @@
 import express from 'express';
 import { checkuserexistance } from '../controllers/signupotpController.js';
 import { checkuserexistance2 } from '../controllers/loginotpController.js';
-import { createUserWithFirebaseToken } from '../controllers/signupotpController.js';
+// import { createUserWithFirebaseToken } from '../controllers/signupotpController.js';
 import { Signup1,Signup2,Signup3 } from '../controllers/signupdetailsController.js';
 import multer from 'multer';
 import path from 'path';
@@ -59,7 +59,7 @@ router.post('/signup2', upload.fields([
   router.post('/signup3', upload.single('uploadbankstatement'), Signup3);
 //serverRoutes
 
-router.post('/firebase-token', firebaseTokenAuth);
+// router.post('/firebase-token', firebaseTokenAuth);
 router.get('/test', (req, res) => res.json({ ok: true }));
 
 export default router;
