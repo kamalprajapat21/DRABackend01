@@ -164,6 +164,20 @@ app.use((req, res, next) => {
 
 app.use('/api', vitalRoutes);
 
+app.use((err, req, res, next) => {
+  if (err.message.includes('File too large')) {
+    return res.status(400).json({ success: false, message: 'File too large. Max 10MB allowed.' });
+  }
+
+  if (err.message.includes('Only PDF and PNG files are allowed')) {
+    return res.status(400).json({ success: false, message: 'Invalid file type. Only PDF and PNG allowed.' });
+  }
+
+  return res.status(500).json({ success: false, message: 'File upload error.', error: err.message });
+});
+
+
+
 
  app.use((req, res, next) => {
  req.conn2 = conn2;
