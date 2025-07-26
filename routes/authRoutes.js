@@ -112,7 +112,7 @@ const router = express.Router();
 
 router.post('/signup/checkuserexistance', checkuserexistance);
 router.post('/login/checkuserexistance2', checkuserexistance2);
-router.post('/api/auth/signup/create-with-token', createUserWithFirebaseToken);
+router.post('/signup/create-with-token', createUserWithFirebaseToken);
 
 // ✅ Cloudinary upload routes
 router.post('/signup1', upload.single('labPhoto'), Signup1);
