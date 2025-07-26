@@ -23,7 +23,7 @@
 //   }
 // };
 
-import createUserModel from '../models/User.js';
+// import createUserModel from '../models/User.js';
 
 // export const checkuserexistance = async (req, res) => {
 //   try {
@@ -49,6 +49,10 @@ import createUserModel from '../models/User.js';
 //     res.status(500).json({ msg: 'Error during user creation', error: err.message });
 //   }
 // };
+
+
+import createUserModel from '../models/User.js';
+
 
 export const checkuserexistance = async (req, res) => {
   try {
