@@ -108,6 +108,7 @@ const user1Schema = new mongoose.Schema({
   labName: String,
   labAddress1: String,
   labAddress2: String,
+  gender: String,
   city: String,
   state: String,
   labPhoto: String,
