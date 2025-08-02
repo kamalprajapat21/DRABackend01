@@ -119,8 +119,7 @@ router.post('/signup1', upload.single('labPhoto'), Signup1);
 router.post('/signup2', upload.fields([
   { name: 'aadharCard', maxCount: 1 },
   { name: 'panCard', maxCount: 1 },
-  { name: 'labLicense', maxCount: 1 },
-  { name: 'gstCertificate', maxCount: 1 },
+  { name: 'nursingCertificate', maxCount: 1 },
 ]), Signup2);
 router.post('/signup3', upload.single('uploadbankstatement'), Signup3);
 
