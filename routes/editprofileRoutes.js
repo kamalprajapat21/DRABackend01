@@ -98,4 +98,59 @@ router.get('/files/:filename', async (req, res) => {
   }
 });
 
+
+
+
+
+router.get('/view/:mobileNumber', async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber } = req.params;
+    const user = await User1.findOne({ mobile: mobileNumber });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json({
+      fullName: user.fullName,
+      labName: user.labName,
+      labAddress1: user.labAddress1,
+      labAddress2: user.labAddress2,
+      city: user.city,
+      gender:user.gender,
+      state: user.state,
+      mobile: user.mobile,
+      DraId: user.DraId,
+      email: user.email, // Only if you're storing email (not in schema now)
+      labPhoto: user.labPhoto,
+
+      // Document Details
+      aadharCard: user.aadharCard,
+      panCard: user.panCard,
+      labLicense: user.labLicense,
+      gstCertificate: user.gstCertificate,
+
+      // Bank Details
+      bankName: user.bankName,
+      accountNumber: user.accountNumber,
+      ifscCode: user.ifscCode,
+      uploadbankstatement: user.uploadbankstatement,
+
+      // Optional tracking fields
+      signupStep: user.signupStep,
+      signupCompleted: user.signupCompleted,
+      createdOn: user.createdOn,
+      modifiedOn: user.modifiedOn
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
 export default router;
+
+
+
+
