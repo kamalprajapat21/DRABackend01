@@ -135,7 +135,7 @@ app.use('/api/urgent',UrgentCaseOtp);//ForUrgentcases
   app.use('/api/bookingservice', bookingserviceRoutes);
   app.use('/api/earning', earningRoutes);
   app.use('/api/withdraw', withdrawRoutes);
-  // yugalcode routes
+  // yugalcode routesF
   app.use('/api/profile', editprofileRoutes);
   app.use('/api/bankinfo', bankInfoRoutes);
   app.use('/api/logout', logoutRoutes);
