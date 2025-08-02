@@ -340,7 +340,7 @@ export const Signup1 = async (req, res) => {
   try {
     const User = createUser(req.conn1);
     const User1 = createUser1(req.conn1);
-    const { fullName, labName, labAddress1, labAddress2, city, state, mobileNumber } = req.body;
+    const { fullName, labName, gender, labAddress1, labAddress2, city, state, mobileNumber } = req.body;
     const labPhoto = req.file ? req.file.filename : null;
     const mobile = String(mobileNumber).trim();
 
@@ -357,6 +357,7 @@ export const Signup1 = async (req, res) => {
 
     user1.fullName = fullName;
     user1.labName = labName;
+    user1.gender = gender;
     user1.labAddress1 = labAddress1;
     user1.labAddress2 = labAddress2;
     user1.city = city;
