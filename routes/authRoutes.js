@@ -104,7 +104,9 @@ import express from 'express';
 import { checkuserexistance } from '../controllers/signupotpController.js';
 import { checkuserexistance2 } from '../controllers/loginotpController.js';
 import { createUserWithFirebaseToken } from '../controllers/signupotpController.js';
-import { Signup1, Signup2, Signup3 } from '../controllers/signupdetailsController.js';
+import { Signup1, Signup2, Signup3, editProfile,
+  editBankDetails,
+  editDocuments } from '../controllers/signupdetailsController.js';
 import { firebaseTokenAuth } from '../controllers/firebaseAuthController.js';
 import { upload } from '../middlewares/upload.js'; // ✅ Cloudinary-based upload
 
@@ -122,6 +124,17 @@ router.post('/signup2', upload.fields([
   { name: 'nursingCertificate', maxCount: 1 },
 ]), Signup2);
 router.post('/signup3', upload.single('uploadbankstatement'), Signup3);
+
+
+////KamalCOde
+router.put('/editStep1', upload.single('labPhoto'), editProfile);
+router.put('/editStep2', upload.fields([
+  { name: 'aadharCard', maxCount: 1 },
+  { name: 'panCard', maxCount: 1 },
+  { name: 'nursingCertificate', maxCount: 1 }
+]), editDocuments);
+router.put('/editStep3', upload.single('uploadbankstatement'), editBankDetails);
+
 
 router.post('/firebase-token', firebaseTokenAuth);
 router.get('/test', (req, res) => res.json({ ok: true }));
