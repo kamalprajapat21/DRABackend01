@@ -444,3 +444,86 @@ export const Signup3 = async (req, res) => {
     res.status(500).json({ message: 'Error in step 3', error: error.message });
   }
 };
+
+
+
+
+
+///EditCode
+export const editProfile = async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber, fullName, labName, gender, labAddress1, labAddress2, city, state } = req.body;
+    const mobile = String(mobileNumber).trim();
+
+    let user1 = await User1.findOne({ mobile });
+    if (!user1) return res.status(404).json({ message: 'User not found' });
+
+    if (fullName) user1.fullName = fullName;
+    if (labName) user1.labName = labName;
+    if (gender) user1.gender = gender;
+    if (labAddress1) user1.labAddress1 = labAddress1;
+    if (labAddress2) user1.labAddress2 = labAddress2;
+    if (city) user1.city = city;
+    if (state) user1.state = state;
+    if (req.file) user1.labPhoto = req.file.filename;
+
+    await user1.save();
+    res.status(200).json({ message: 'Profile updated successfully', data: user1 });
+  } catch (error) {
+    console.error('Error in edit profile:', error);
+    res.status(500).json({ message: 'Failed to update profile', error: error.message });
+  }
+};
+
+
+
+
+
+////Edit Bankdetails
+export const editBankDetails = async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber, bankName, accountNumber, ifscCode } = req.body;
+    const mobile = String(mobileNumber).trim();
+
+    let user1 = await User1.findOne({ mobile });
+    if (!user1) return res.status(404).json({ message: 'User not found' });
+
+    if (bankName) user1.bankName = bankName;
+    if (accountNumber) user1.accountNumber = accountNumber;
+    if (ifscCode) user1.ifscCode = ifscCode;
+    if (req.file) user1.uploadbankstatement = req.file.filename;
+
+    await user1.save();
+    res.status(200).json({ message: 'Bank details updated successfully', data: user1 });
+  } catch (error) {
+    console.error('Error in edit bank details:', error);
+    res.status(500).json({ message: 'Failed to update bank details', error: error.message });
+  }
+};
+
+
+
+
+///edit Document
+export const editDocuments = async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber } = req.body;
+    const mobile = String(mobileNumber).trim();
+
+    let user1 = await User1.findOne({ mobile });
+    if (!user1) return res.status(404).json({ message: 'User not found' });
+
+    for (const [key, value] of Object.entries(req.files)) {
+      user1[key] = value[0].filename;
+    }
+
+    await user1.save();
+    res.status(200).json({ message: 'Documents updated successfully', data: user1 });
+  } catch (error) {
+    console.error('Error in edit documents:', error);
+    res.status(500).json({ message: 'Failed to update documents', error: error.message });
+  }
+};
