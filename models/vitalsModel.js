@@ -134,7 +134,8 @@ const OptionalTestSchema = new mongoose.Schema({
 
 const ReportSchema = new mongoose.Schema({
   filename: String,
-  path: String,
+  url: String,
+  public_id: String,
 }, { _id: false });
 
 const VitalsSchema = new mongoose.Schema({
@@ -149,6 +150,7 @@ const VitalsSchema = new mongoose.Schema({
   ecg: String,
   bloodGlucose: String,
   haemoglobin: String,
+  uricAcid: String,
   cholesterol: String,
   optionalTests: [OptionalTestSchema],
   testReports: [ReportSchema],
