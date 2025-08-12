@@ -7,7 +7,8 @@ import {
   getAvailableHomeCare,
   rejectHomeCare,
   acceptHomeCare,
-  getPatientDetailsByBookingId
+  getPatientDetailsByBookingId,
+  getAllIncomingHomeCareBookings
 } from '../../controllers/Nursing/pwaNursingcareController.js';
 
 
@@ -40,6 +41,7 @@ router.post('/reject', rejectHomeCare);
 
 // POST accept a HomeCare service
 router.post('/accept', acceptHomeCare);
+router.get('/incoming', getAllIncomingHomeCareBookings);
 
 export default router;
 
