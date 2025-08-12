@@ -149,6 +149,94 @@ router.get('/view/:mobileNumber', async (req, res) => {
 });
 
 
+
+
+
+////EditPRofile
+router.patch('/edit-profile/:mobileNumber', async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber } = req.params;
+    const user = await User1.findOne({ mobile: mobileNumber });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Update basic profile info
+    user.fullName = req.body.fullName || user.fullName;
+    user.labName = req.body.labName || user.labName;
+    user.labAddress1 = req.body.labAddress1 || user.labAddress1;
+    user.labAddress2 = req.body.labAddress2 || user.labAddress2;
+    user.city = req.body.city || user.city;
+    user.state = req.body.state || user.state;
+    user.gender = req.body.gender || user.gender;
+    user.email = req.body.email || user.email;
+
+    await user.save();
+    res.json({ message: 'Profile updated successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
+
+/////Edit Documents
+const docUpload = upload.fields([
+  { name: 'aadharCard', maxCount: 1 },
+  { name: 'panCard', maxCount: 1 },
+  { name: 'labLicense', maxCount: 1 },
+  { name: 'gstCertificate', maxCount: 1 }
+]);
+
+router.patch('/edit-documents/:mobileNumber', docUpload, async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber } = req.params;
+    const user = await User1.findOne({ mobile: mobileNumber });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Update document filenames if new files are uploaded
+    if (req.files['aadharCard']) user.aadharCard = req.files['aadharCard'][0].filename;
+    if (req.files['panCard']) user.panCard = req.files['panCard'][0].filename;
+    if (req.files['labLicense']) user.labLicense = req.files['labLicense'][0].filename;
+    if (req.files['gstCertificate']) user.gstCertificate = req.files['gstCertificate'][0].filename;
+
+    await user.save();
+    res.json({ message: 'Documents updated successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+// Edit Bank Info
+const bankUpload = upload.single('uploadbankstatement');
+
+router.patch('/edit-bankinfo/:mobileNumber', bankUpload, async (req, res) => {
+  try {
+    const User1 = createUser1(req.conn1);
+    const { mobileNumber } = req.params;
+    const user = await User1.findOne({ mobile: mobileNumber });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Update bank details
+    user.bankName = req.body.bankName || user.bankName;
+    user.accountNumber = req.body.accountNumber || user.accountNumber;
+    user.ifscCode = req.body.ifscCode || user.ifscCode;
+
+    // Update bank statement file if uploaded
+    if (req.file) user.uploadbankstatement = req.file.filename;
+
+    await user.save();
+    res.json({ message: 'Bank info updated successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
+
+
 export default router;
 
 
