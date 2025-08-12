@@ -1,18 +1,92 @@
-// import createVitalModel from '../models/Vitals.js';
+// // // 
 
-// export const uploadVitals = async (req, res) => {
+
+
+
+
+
+// // import createVitalsModel from '../models/vitalsModel.js';
+
+// // export const addVitals = async (req, res) => {
+// //   try {
+// //     const Vitals = createVitalsModel(req.conn1);
+
+// //     // Extract normal fields
+// //     let {
+// //       bookingId,
+// //       patientName,
+// //       bloodPressure,
+// //       pulseOximeter,
+// //       temperature,
+// //       weight,
+// //       height,
+// //       bmi,
+// //       ecg,
+// //       bloodGlucose,
+// //       haemoglobin,
+// //       cholesterol,
+// //       uricAcid,
+// //       notes
+// //     } = req.body;
+
+// //     // Parse optionalTests if provided
+// //     let optionalTests = [];
+// //     if (req.body.optionalTests) {
+// //       try {
+// //         optionalTests = JSON.parse(req.body.optionalTests);
+// //       } catch {
+// //         return res.status(400).json({ success: false, message: 'Invalid JSON format for optionalTests' });
+// //       }
+// //     }
+
+// //     // Handle uploaded files (works for single or multiple)
+// //     const testReports = (req.files || []).map(file => ({
+// //       filename: file.filename,
+// //       url: `${req.protocol}://${req.get('host')}/uploads/reports/${file.filename}`
+// //     }));
+
+// //     // Save to DB
+// //     const newVitals = await Vitals.create({
+// //       bookingId,
+// //       patientName,
+// //       bloodPressure,
+// //       pulseOximeter,
+// //       temperature,
+// //       weight,
+// //       height,
+// //       bmi,
+// //       ecg,
+// //       bloodGlucose,
+// //       haemoglobin,
+// //       cholesterol,
+// //       uricAcid,
+// //       optionalTests,
+// //       testReports,
+// //       notes
+// //     });
+
+// //     res.status(201).json({ success: true, data: newVitals });
+
+// //   } catch (error) {
+// //     console.error('Error adding vitals:', error);
+// //     res.status(500).json({ success: false, message: 'Failed to add vitals' });
+// //   }
+// // };
+
+
+
+
+
+
+// import createVitalsModel from '../models/vitalsModel.js';
+
+// export const addVitals = async (req, res) => {
 //   try {
-//     const Vital = createVitalModel(req.conn2);
-//     const {
-//       patientName, bloodPressure, pulseOximeter, temperature, weight,
-//       height, bmi, ecg, bloodGlucose, haemoglobin, cholesterol, uricAcid,
-//       typhoid, malaria, hepatitisB, syphilis, hepatitisC, hiv,
-//       dengueAntigen, cardiacTroponin, urine2P, notes,
-//     } = req.body;
+//     const Vitals = createVitalsModel(req.conn1);
 
-//     const reports = req.files?.map(file => file.path) || [];
-
-//     const vitals = new Vital({
+//     // Extract normal fields
+//     let {
+//       bookingId,
 //       patientName,
 //       bloodPressure,
 //       pulseOximeter,
@@ -25,158 +99,93 @@
 //       haemoglobin,
 //       cholesterol,
 //       uricAcid,
-//       notes,
-//       reports,
-//       optionalTests: {
-//         typhoid,
-//         malaria,
-//         hepatitisB,
-//         syphilis,
-//         hepatitisC,
-//         hiv,
-//         dengueAntigen,
-//         cardiacTroponin,
-//         urine2P
-//       }
-//     });
-
-//     await vitals.save();
-//     res.status(201).json({ message: 'Vitals uploaded successfully', vitals });
-//   } catch (error) {
-//     console.error('Error uploading vitals:', error);
-//     res.status(500).json({ message: 'Failed to upload vitals', error: error.message });
-//   }
-// };
-
-
-
-// import Vitals from '../models/Vitals.js';
-
-// export const addVitals = async (req, res) => {
-//   try {
-//     const vitals = new Vitals(req.body);
-//     await vitals.save();
-//     res.status(201).json({ message: 'Vitals saved successfully' });
-//   } catch (err) {
-//     console.error('Error saving vitals:', err);
-//     res.status(500).json({ message: 'Server error' });
-//   }
-// };
-
-
-
-
-// // backend/controllers/vitalsController.js
-// import createVitalsModel from '../models/vitalsModel.js';
-
-// export const addVitals = async (req, res) => {
-//   try {
-//     const Vitals = createVitalsModel(req.conn2); // Use correct connection
-//     const { patientId, bloodPressure, heartRate, temperature } = req.body;
-
-//     const newVitals = await Vitals.create({ patientId, bloodPressure, heartRate, temperature });
-//     res.status(201).json({ success: true, data: newVitals });
-//   } catch (error) {
-//     console.error('Error adding vitals:', error);
-//     res.status(500).json({ success: false, message: 'Failed to add vitals' });
-//   }
-// };
-
-
-
-////06-06-2025 code
-// backend/controllers/vitalsController.js
-import dbConnect from '../config/db.js'; // ✅ Add this line
-// import createVitalsModel from '../models/vitalsModel.js';
-
-// export const addVitals = async (req, res) => {
-//   try {
-//     const { conn1 } = await dbConnect(); // ✅ connect to DB
-//     const Vitals = createVitalsModel(conn1); // ✅ use conn2
-
-//     const { bookingId, bloodPressure, heartRate, temperature } = req.body;
-
-//     const newVitals = await Vitals.create({
-//       bookingId,
-//       bloodPressure,
-//       heartRate,
-//       temperature
-//     });
-
-//     res.status(201).json({ success: true, data: newVitals });
-//   } catch (error) {
-//     console.error('Error adding vitals:', error);
-//     res.status(500).json({ success: false, message: 'Failed to add vitals' });
-//   }
-// };
-
-
-
-// // update sheemacode
-
-// // controllers/vitalsController.js
-// import createVitalsModel from '../models/VitalsModel.js';
-
-// export const addVitals = async (req, res) => {
-//   try {
-//     const Vitals = createVitalsModel(req.conn2); // Use second DB connection
-
-//     const {
-//       bookingId,
-//       patientName,
-//       bloodPressure,
-//       pulseOximeter,
-//       temperature,
-//       weight,
-//       height,
-//       bmi,
-//       ecg,
-//       bloodGlucose,
-//       haemoglobin,
-//       cholesterol,
-//       optionalTests,
 //       notes
 //     } = req.body;
 
-//     const testReportFile = req.file?.filename || ''; // from multer (if file uploaded)
+//     // Parse optionalTests if provided
+//     let optionalTests = [];
+//     if (req.body.optionalTests) {
+//       try {
+//         optionalTests = JSON.parse(req.body.optionalTests);
+//       } catch {
+//         return res.status(400).json({
+//           success: false,
+//           message: 'Invalid JSON format for optionalTests',
+//         });
+//       }
+//     }
 
-//     const newVitals = await Vitals.create({
-//       bookingId,
-//       patientName,
-//       bloodPressure,
-//       pulseOximeter,
-//       temperature,
-//       weight,
-//       height,
-//       bmi,
-//       ecg,
-//       bloodGlucose,
-//       haemoglobin,
-//       cholesterol,
-//       optionalTests,
-//       testReportFile,
-//       notes,
-//     });
+//     // Handle uploaded files (public URL instead of server path)
+//     // const testReports = (req.files || []).map(file => ({
+//     //   filename: file.filename,
+//     //   url: `${req.protocol}://${req.get('host')}/uploads/reports/${file.filename}`
+//     // }));
 
+//     // // Save to DB
+//     // const newVitals = await Vitals.create({
+//     //   bookingId,
+//     //   patientName,
+//     //   bloodPressure,
+//     //   pulseOximeter,
+//     //   temperature,
+//     //   weight,
+//     //   height,
+//     //   bmi,
+//     //   ecg,
+//     //   bloodGlucose,
+//     //   haemoglobin,
+//     //   cholesterol,
+//     //   uricAcid,
+//     //   optionalTests,
+//     //   testReports,
+//     //   notes
+//     // });
+
+
+
+//     // Handle uploaded files (public URL instead of server path)
+// const testReports = (req.files || []).map(file => ({
+//   filename: file.filename,
+//   url: `${req.protocol}://${req.get('host')}/uploads/reports/${file.filename}`
+// }));
+
+// const newVitals = await Vitals.create({
+//   bookingId,
+//   patientName,
+//   bloodPressure,
+//   pulseOximeter,
+//   temperature,
+//   weight,
+//   height,
+//   bmi,
+//   ecg,
+//   bloodGlucose,
+//   haemoglobin,
+//   cholesterol,
+//   uricAcid,
+//   optionalTests,
+//   testReports,  // this now contains both filename & url
+//   notes
+// });
+
+
+//     // Respond with data including the public file URLs
 //     res.status(201).json({ success: true, data: newVitals });
+
 //   } catch (error) {
 //     console.error('Error adding vitals:', error);
 //     res.status(500).json({ success: false, message: 'Failed to add vitals' });
 //   }
 // };
 
-
-
-
+// backend/controllers/vitalsController.js
 import createVitalsModel from '../models/vitalsModel.js';
-
 
 export const addVitals = async (req, res) => {
   try {
     const Vitals = createVitalsModel(req.conn1);
 
-    // Destructure all fields
-    let {
+    const {
       bookingId,
       patientName,
       bloodPressure,
@@ -189,15 +198,16 @@ export const addVitals = async (req, res) => {
       bloodGlucose,
       haemoglobin,
       cholesterol,
+      uricAcid,
       notes
     } = req.body;
 
-    // Parse optionalTests from JSON string if present
+    // Parse optionalTests JSON
     let optionalTests = [];
     if (req.body.optionalTests) {
       try {
         optionalTests = JSON.parse(req.body.optionalTests);
-      } catch (parseError) {
+      } catch {
         return res.status(400).json({
           success: false,
           message: 'Invalid JSON format for optionalTests',
@@ -205,11 +215,12 @@ export const addVitals = async (req, res) => {
       }
     }
 
-    // Handle uploaded files
-    const testReports = req.files?.map((file) => ({
-      filename: file.filename,
-      path: file.path,
-    })) || [];
+    // Map Cloudinary uploaded files
+    const testReports = (req.files || []).map(file => ({
+      filename: file.originalname,
+      url: file.path,          // Cloudinary file URL
+      public_id: file.filename // Cloudinary public_id
+    }));
 
     const newVitals = await Vitals.create({
       bookingId,
@@ -224,14 +235,38 @@ export const addVitals = async (req, res) => {
       bloodGlucose,
       haemoglobin,
       cholesterol,
+      uricAcid,
       optionalTests,
       testReports,
       notes
     });
 
     res.status(201).json({ success: true, data: newVitals });
+
   } catch (error) {
     console.error('Error adding vitals:', error);
     res.status(500).json({ success: false, message: 'Failed to add vitals' });
   }
 };
+
+// backend/controllers/vitalsController.js
+
+export const getVitalsReports = async (req, res) => {
+  try {
+    const Vitals = createVitalsModel(req.conn1);
+    const vitals = await Vitals.findById(req.params.id);
+
+    if (!vitals || !vitals.testReports.length) {
+      return res.status(404).json({ success: false, message: 'No reports found' });
+    }
+
+    res.json({
+      success: true,
+      reports: vitals.testReports.map(r => ({ name: r.filename, url: r.url }))
+    });
+  } catch (error) {
+    console.error('Error fetching reports:', error);
+    res.status(500).json({ success: false, message: 'Failed to fetch reports' });
+  }
+};
+
