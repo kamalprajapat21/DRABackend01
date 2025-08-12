@@ -105,3 +105,33 @@ export const acceptHomeCare = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
+
+
+
+export const getAllIncomingBookings = async (req, res) => {
+  try {
+    // Use PWA DB connection, assuming incoming bookings stored there
+    const HomeCareModel = createHomeCareModel(req.conn2);
+
+    // Find docs where bookings array has at least one 'incoming' booking
+    const allDocs = await HomeCareModel.find({
+      'bookings.status': 'incoming'
+    });
+
+    // Filter the bookings array to include only incoming bookings per doc
+    const filtered = allDocs.map(doc => {
+      const filteredBookings = doc.bookings.filter(b => b.status === 'incoming');
+      return { ...doc.toObject(), bookings: filteredBookings };
+    }).filter(doc => doc.bookings.length > 0);
+
+    res.status(200).json({
+      success: true,
+      data: filtered
+    });
+  } catch (error) {
+    console.error('Error fetching all incoming bookings:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
