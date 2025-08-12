@@ -2,7 +2,7 @@ import express from 'express';
 import {
   getAvailableHomeCare,
   rejectHomeCare,
-  acceptHomeCare
+  acceptHomeCare,getAllIncomingHomeCareBookings
 } from '../../controllers/Home/pwaHomecareController.js';
 
 const router = express.Router();
@@ -15,5 +15,6 @@ router.post('/reject', rejectHomeCare);
 
 // POST accept a HomeCare service
 router.post('/accept', acceptHomeCare);
+router.get('/incoming-bookings', getAllIncomingHomeCareBookings);
 
 export default router;
