@@ -172,3 +172,28 @@ export const acceptHomeCare = async (req, res) => {
 export default getPatientDetailsByBookingId;
 
 
+export const getAllIncomingHomeCareBookings = async (req, res) => {
+  try {
+    // Use PWA DB connection (conn2)
+    const HomeCareModel = createHomeCareModel(req.conn2);
+
+    // Find all documents where any booking has status 'incoming'
+    const allDocs = await HomeCareModel.find({
+      'bookings.status': 'incoming'
+    });
+
+    // Filter the bookings array in each doc to only include incoming bookings
+    const filtered = allDocs.map(doc => {
+      const incomingBookings = doc.bookings.filter(b => b.status === 'incoming');
+      return { ...doc.toObject(), bookings: incomingBookings };
+    }).filter(doc => doc.bookings.length > 0);
+
+    res.status(200).json({
+      success: true,
+      data: filtered
+    });
+  } catch (error) {
+    console.error('Error fetching all incoming HomeCare bookings:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
